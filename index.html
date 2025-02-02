@@ -69,6 +69,54 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-逻辑漏洞" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/02/02/%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time class="dt-published" datetime="2025-02-02T14:57:21.000Z" itemprop="datePublished">2025-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/02/02/%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E/">逻辑漏洞</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>绕过认证（Authentication Bypass）<br>概念：攻击者通过绕过身份验证过程，直接访问应用程序中受保护的部分。<br>常见漏洞：<br>   弱密码或简单认证：如明文存储的密码、使用默认密码等。<br>   URL篡改：通过修改请求中的参数绕过认证（例如，改变user_id或role参数）。<br>   Session管理不当：比如会话ID固定，或者用户认证信息未正确校验。<br>防护：<br>  强制使用复杂密码策略。<br>  加密存储密码，使用bcrypt、argon2等安全算法。<br>  使用双因素认证（2FA）。<br>  定期检查Session和Token的有效性。<br>  防止会话固定，通过session_regenerate_id()生成新会话ID。</li>
+<li>权限绕过（Authorization Bypass）<br>概念：攻击者利用权限控制的漏洞，获取自己不应访问的资源。<br>常见漏洞：<br>   URL&#x2F;请求篡改：攻击者修改请求参数（如user_id&#x3D;123）以访问其他用户的资源。<br>   文件权限控制不当：文件上传、访问权限设置错误，攻击者可以上传恶意文件或访问他人数据。<br>防护：<br>  确保所有敏感操作都经过服务器端的权限检查。<br>  使用严格的角色访问控制（RBAC）机制来管理权限。<br>  检查和验证所有用户输入，防止篡改请求中的敏感参数。<br> 防止暴露系统文件和目录，通过&#x2F;etc&#x2F;passwd等文件检查来确保安全。</li>
+<li>逻辑错误（Business Logic Flaw）<br> 概念：应用程序在实现某些业务逻辑时的设计不当，允许攻击者通过非预期方式操控应用程序。<br> 常见漏洞：<br>付款系统漏洞：如通过篡改订单金额、频繁请求订单等方式欺骗支付系统。<br>库存数量操控：通过篡改库存信息来获取不应获得的商品。<br>竞拍漏洞：通过脚本自动化操作操控竞拍或价格。<br>防护：<br>  彻底审查业务逻辑，确保每个流程的处理都符合预期。<br>  使用状态机和事务控制来确保操作的有效性与一致性。<br>  设置合理的限制和验证（如订单金额、支付次数、商品库存等）。</li>
+<li>时间竞态（Race Condition）<br>概念：攻击者通过并发操作，利用程序在执行过程中产生的竞态条件，从而绕过安全控制或得到非法的资源。<br>常见漏洞：<br>   并发操作不一致：例如两个用户在几乎相同的时间内请求修改同一资源（如余额、库存等），导致程序没有正确处理这种并发情况。<br>防护：<br>  在修改敏感数据时使用锁机制，确保并发操作时的一致性。<br>  对操作进行事务处理，确保数据一致性。<br>  避免对数据进行非原子操作。</li>
+<li>不当的数据验证（Improper Data Validation）<br> 概念：攻击者通过提交未经验证的数据，达到绕过预期逻辑的目的。<br> 常见漏洞：<br>客户端验证绕过：通过禁用JavaScript或直接发送恶意请求，绕过前端验证。<br>不完全验证：如表单输入未进行彻底的合法性检查。<br>文件上传漏洞：如上传不受限制的文件类型（例如PHP文件）。<br>防护：<br>   严格的服务器端验证，不能依赖客户端验证。<br>   对所有用户输入进行彻底的合法性检查。<br>   使用白名单来限制上传的文件类型。</li>
+<li>计数器&#x2F;时间窃取（Time-based or Counter-based Attacks）<br> 概念：通过对应用程序响应时间或计数器等行为的观察，窃取数据或绕过逻辑。<br> 常见漏洞：<br> 验证码绕过：攻击者通过暴力破解验证码或基于时间的逻辑来绕过身份验证。<br> Session时间滥用：通过操控Session过期时间或利用延迟操作。<br>防护：<br>   在验证码或token生成中使用随机、不可预测的算法。<br>   使用更复杂的时间间隔来限制暴力破解。<br> 避免使用简单的基于时间的系统（如短时间间隔的会话失效机制）。</li>
+<li>缓存投毒（Cache Poisoning）<br> 概念：攻击者通过操控应用程序的缓存，插入恶意内容，影响后续请求。<br> 常见漏洞：<br> 不当的缓存配置：缓存了敏感信息或未正确隔离不同用户的数据。<br> 防护：<br> 确保缓存中不包含敏感信息。</li>
+</ol>
+<p>使用基于用户身份的缓存隔离策略。<br>8. URL重定向漏洞（Open Redirect）<br>    概念：应用程序没有验证跳转目标，允许攻击者通过恶意URL欺骗用户跳转到不安全的网站。<br>    常见漏洞：<br>        URL中的参数没有过滤或校验，允许攻击者操控跳转地址。<br>    防护：<br>       验证跳转的目标URL，确保其为合法的预定义地址。<br>       避免将用户输入的URL直接用于跳转。<br>9. 信息泄露（Information Disclosure）<br>    概念：攻击者通过应用程序泄露信息（如错误信息、调试信息）来推测系统结构或漏洞。<br>    常见漏洞：<br>    错误信息泄露：详细的错误信息会泄露系统配置、数据库结构等。<br>    防护：<br>       禁止在生产环境中显示详细的错误信息。<br>       通过日志记录和警告来追踪错误，但不将敏感信息暴露给用户。<br>10. 逻辑时序攻击（Time-of-check to Time-of-use (TOCTOU) Bugs）<br>    概念：攻击者利用系统状态的变化，例如在检查某个条件和实际操作之间发生的状态变化来攻击系统。<br>    常见漏洞：<br>         文件操作：例如，检查文件是否存在时，文件状态可能在操作时发生变化，导致绕过安全检查。<br>    防护：<br>        确保文件操作是原子性的，避免中间状态变化。<br>        使用锁机制和事务来确保操作的一致性。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/02/02/%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E/" data-id="cm6nr4xaq0000qkva4q2395al" data-title="逻辑漏洞" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-web弱类型" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/01/26/web%E5%BC%B1%E7%B1%BB%E5%9E%8B/" class="article-date">
@@ -498,7 +546,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/01/">January 2025</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">February 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/01/">January 2025</a></li></ul>
     </div>
   </div>
 
@@ -509,6 +557,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2025/02/02/%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E/">逻辑漏洞</a>
+          </li>
         
           <li>
             <a href="/2025/01/26/web%E5%BC%B1%E7%B1%BB%E5%9E%8B/">web弱类型</a>
@@ -524,10 +576,6 @@
         
           <li>
             <a href="/2025/01/19/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a>
-          </li>
-        
-          <li>
-            <a href="/2025/01/19/%E6%96%B0%E7%94%9F%E8%B5%9B-no-wakeup-1/">新生赛]no_wakeup</a>
           </li>
         
       </ul>

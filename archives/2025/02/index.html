@@ -4,17 +4,13 @@
   <meta charset="utf-8">
   
   
-  <title>web3 | Hexo</title>
+  <title>Archives: 2025/2 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="进入靶机可以看到只有两行字母ctf.show_web3  可以看出这是php语言，其中include()涉及文件漏洞 那我们来了解一下include()函数 include()：当使用该函数包含文件时，只有代码执行到include()函数时才将文件包含进来，发生错误时之给出一个警告，然后继续向下执行。 我们利用php伪协议php:&#x2F;&#x2F;input来执行php代码 发送Get请求?">
-<meta property="og:type" content="article">
-<meta property="og:title" content="web3">
-<meta property="og:url" content="http://example.com/2025/01/26/web3/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/archives/2025/02/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="进入靶机可以看到只有两行字母ctf.show_web3  可以看出这是php语言，其中include()涉及文件漏洞 那我们来了解一下include()函数 include()：当使用该函数包含文件时，只有代码执行到include()函数时才将文件包含进来，发生错误时之给出一个警告，然后继续向下执行。 我们利用php伪协议php:&#x2F;&#x2F;input来执行php代码 发送Get请求?">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2025-01-26T12:31:37.000Z">
-<meta property="article:modified_time" content="2025-01-26T13:12:43.127Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -71,62 +67,39 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-web3" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/01/26/web3/" class="article-date">
-  <time class="dt-published" datetime="2025-01-26T12:31:37.000Z" itemprop="datePublished">2025-01-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+        <section id="main">
   
-    <h1 class="p-name article-title" itemprop="headline name">
-      web3
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2025" class="archive-year">2025</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <a href="/2025/02/02/%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E/" class="archive-article-date">
+  <time class="dt-published" datetime="2025-02-02T14:57:21.000Z" itemprop="datePublished">Feb 2</time>
+</a>
+      
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2025/02/02/%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E/">逻辑漏洞</a>
     </h1>
   
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>进入靶机<br>可以看到只有两行字母<br>ctf.show_web3<br> <?php include($_GET['url']);?><br> 可以看出这是php语言，其中include()涉及文件漏洞<br> 那我们来了解一下include()函数<br> include()：当使用该函数包含文件时，只有代码执行到include()函数时才将文件包含进来，发生错误时之给出一个警告，然后继续向下执行。<br> 我们利用php伪协议php:&#x2F;&#x2F;input来执行php代码<br> 发送Get请求?url&#x3D;php:&#x2F;&#x2F;input<br> 打开bp进行抓包<br> 在包的最下面写上<?php system('ls')?>执行系统命令查看当前目录的文件，来查看有无目标文件<br> 发送后，可以发现有ctf_go_go_go index.php两个文件<br> 猜测flag在第一个文件里<br> 接着我们直接在url地址栏中输入url参数,访问ctf_go_go_go文件<br> 回车后，得到flag</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/01/26/web3/" data-id="cm6dm88po0000w0vagbnw660b" data-title="web3" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
+    </header>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2025/01/26/web10/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          web10
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2025/01/19/SQL%E6%B3%A8%E5%85%A5/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">SQL注入</div>
-    </a>
-  
-</nav>
-
-  
 </article>
+  
+  
+    </div></section>
+  
 
 
 </section>
