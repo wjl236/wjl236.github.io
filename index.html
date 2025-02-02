@@ -69,6 +69,68 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-命令注入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/02/02/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time class="dt-published" datetime="2025-02-02T15:31:48.000Z" itemprop="datePublished">2025-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/02/02/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/">命令注入</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>命令注入的原理<br>  基本概念：命令注入漏洞发生在应用程序将用户输入的内容直接拼接到系统命令中执行时。如果没有对输入进行有效的过滤或校验，攻击者可以通过特殊的输入构造恶意命令，使得应用程序执行不应该被执行的系统命令。<br>  攻击方式：攻击者在输入中插入特殊字符（如&amp;、;、|、$( )等），用来分隔原本合法的命令和恶意命令，导致操作系统执行额外的指令。</p>
+</li>
+<li><p>命令注入的常见场景<br>  Web应用的后端命令调用：例如应用程序通过用户输入调用操作系统的命令（如执行ls、cat、ping等命令）。<br>  文件上传功能：用户上传文件后，系统会执行某些操作（如移动、解压等），攻击者可以利用命令注入来执行恶意命令。<br>  Shell执行功能：一些Web应用会允许用户执行某些系统命令或查询，通过不当的输入，攻击者能够注入恶意命令。</p>
+</li>
+<li><p>命令注入的常见注入点<br>  GET&#x2F;POST请求参数：恶意用户可以通过URL参数（如<a href="http://example.com/index.php?cmd=ls%EF%BC%89%E6%88%96%E8%80%85%E8%A1%A8%E5%8D%95%E6%8F%90%E4%BA%A4%EF%BC%88%E5%A6%82cmd=ls%EF%BC%89%E6%B3%A8%E5%85%A5%E5%91%BD%E4%BB%A4%E3%80%82">http://example.com/index.php?cmd=ls）或者表单提交（如cmd=ls）注入命令。</a><br>  HTTP头：某些Web应用可能使用请求头信息进行命令执行，攻击者可以注入命令。<br>  Web应用中不安全的系统调用：如通过PHP的exec()、system()、shell_exec()等函数直接执行外部命令，若用户输入未被正确处理，就可能遭遇命令注入。<br>  数据库查询注入：有些Web应用通过系统调用来执行数据库查询，若数据库查询语句没有正确处理输入，也可能遭遇命令注入。</p>
+</li>
+<li><p>命令注入的常见攻击方式<br>  基本命令注入：通过在输入中插入分隔符（如;、&amp;、|等）执行多个命令。<br> 示例：用户输入ls; whoami，应用将执行ls命令并返回结果，然后执行whoami命令显示当前用户。<br>  链式注入：攻击者使用多条命令组合，通过&amp;&amp;、||等逻辑操作符连接多个命令。<br> 示例：用户输入ping example.com &amp;&amp; ls -al，执行ping命令后，再执行ls -al列出目录内容。<br>  重定向注入：通过重定向符号（如&gt;、&lt;、&gt;&gt;）将输出写入文件或读取文件。<br> 示例：用户输入ls &gt; &#x2F;tmp&#x2F;output.txt，可能会将目录内容输出到服务器的文件中。<br>  命令替换：攻击者利用命令替换（如$(command)）将系统命令嵌入到其他命令中。<br>示例：用户输入cat $(ls)，可能导致系统执行ls命令并将结果传递给cat命令。<br>  环境变量注入：通过注入环境变量（如export VAR&#x3D;value）来影响系统命令的执行。<br>  恶意脚本执行：通过命令注入执行恶意脚本，可能会导致远程代码执行（RCE）。</p>
+</li>
+<li><p>命令注入的防护措施<br>  输入验证与过滤：<br> 严格限制输入的类型和格式，禁止输入特殊字符，如;、&amp;、|、$()等。<br> 使用正则表达式过滤用户输入，只允许符合预期格式的数据进入系统。<br> 在接受输入时，使用白名单策略，限制用户输入的范围和类型。<br>  输出编码：<br> 对输出进行编码，避免特殊字符被误解释为命令的一部分。<br>  使用安全的API：<br>  避免使用直接调用系统命令的函数（如exec()、system()等），如果必须使用，确保输入已被安全处理。<br>  在PHP中，使用escapeshellarg()和escapeshellcmd()等函数对用户输入进行处理，确保它们被安全地传递给命令行。<br>  最小权限原则：<br>  限制Web服务器的权限，确保其执行的命令不具有高权限（例如不要让Web服务器进程以root权限运行）。<br>  确保Web应用程序和服务器操作系统分隔开来，避免通过Web接口执行敏感的操作。<br>  限制命令执行：<br> 使用受限的环境来执行外部命令（例如，使用chroot环境限制命令执行的范围）。<br> 对执行的命令进行限制，允许执行的命令列表只包含必要的命令，其他命令禁用。</p>
+</li>
+<li><p>常见的Web命令注入工具<br>  Burp Suite：Burp Suite的Intruder和Repeater模块可以用于检测和攻击命令注入漏洞。<br>  SQLmap：虽然SQLmap主要用于SQL注入，但也可以帮助检测基于SQL注入的命令注入漏洞。<br>  Netcat：可用作监听工具，在命令注入攻击中反向连接到攻击者机器。</p>
+</li>
+<li><p>命令注入漏洞检测方法<br>   手动测试：通过在输入中插入常见的命令注入特征（如&amp;、;、|）进行测试，观察系统是否执行了额外的命令。<br>   自动化扫描：使用漏洞扫描工具（如Nikto、Burp Suite等）进行自动化检测。<br>   查看代码和日志：审查应用程序的源代码和服务器日志，寻找调用操作系统命令的部分，检查是否对用户输入进行严格验证。</p>
+</li>
+<li><p>命令注入案例<br>示例1：在PHP中使用exec()函数执行系统命令<br>  php<br>  $cmd &#x3D; $_GET[‘cmd’];<br>  $output &#x3D; exec($cmd);<br>  echo $output;<br>如果用户输入cmd&#x3D;ls; whoami，则可能会执行ls和whoami命令。<br>防护：使用escapeshellcmd()函数处理输入。</p>
+<p>示例2：通过GET参数注入命令<br>  php</p>
+  <?php
+  $filename = $_GET['file'];
+  system("cat " . $filename);
+  ?>
+<p>攻击者可以输入file&#x3D;foo.txt; cat &#x2F;etc&#x2F;passwd，导致命令注入。<br>防护：检查输入，使用escapeshellarg()对文件名进行过滤。</p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/02/02/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/" data-id="cm6nsbz880000jwva8sqo2haq" data-title="命令注入" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="[litctf-2023" class="h-entry article article-type-[litctf" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/02/02/2023/" class="article-date">
@@ -515,58 +577,12 @@
 
 
   
-    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/01/14/hello-world/" class="article-date">
-  <time class="dt-published" datetime="2025-01-14T14:08:25.194Z" itemprop="datePublished">2025-01-14</time>
-</a>
+
+
+  <nav id="page-nav">
     
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/01/14/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/01/14/hello-world/" data-id="cm5wk0tgn0000bcvad1uu4h3f" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+  </nav>
 
 </section>
         
@@ -597,6 +613,10 @@
       <ul>
         
           <li>
+            <a href="/2025/02/02/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/">命令注入</a>
+          </li>
+        
+          <li>
             <a href="/2025/02/02/2023/">2023]</a>
           </li>
         
@@ -610,10 +630,6 @@
         
           <li>
             <a href="/2025/01/26/web10/">web10</a>
-          </li>
-        
-          <li>
-            <a href="/2025/01/26/web3/">web3</a>
           </li>
         
       </ul>
