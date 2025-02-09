@@ -69,6 +69,60 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-反序列化" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/02/09/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" class="article-date">
+  <time class="dt-published" datetime="2025-02-09T14:04:40.000Z" itemprop="datePublished">2025-02-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/02/09/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">反序列化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>反序列化基本概念<br>  序列化（Serialization） 是将数据结构或对象转换成可存储或传输的格式（如JSON、XML、Pickle等）。<br>  反序列化（Deserialization） 则是从这些存储或传输的格式中重建对象。<br>  反序列化漏洞通常发生在应用程序不安全地反序列化数据时，攻击者可以通过精心构造的数据导致安全问题。</p>
+</li>
+<li><p>常见的反序列化协议<br>  PHP的serialize()&#x2F;unserialize()：常见于PHP应用程序，攻击者可以通过修改传递的序列化字符串来执行任意代码。<br>  Java的ObjectInputStream.readObject()：Java中对象的反序列化如果没有进行适当的验证，可能会被利用来执行远程代码。<br>  Python的pickle模块：pickle是Python用来序列化和反序列化数据的工具，攻击者可以通过恶意构造的pickle数据执行任意Python代码。<br>.NET的BinaryFormatter：.NET平台中的BinaryFormatter类也存在反序列化漏洞，攻击者可以通过精心构造的序列化数据执行恶意代码。</p>
+</li>
+<li><p>反序列化漏洞的攻击方式<br>  任意代码执行（RCE）：攻击者通过注入恶意的序列化数据，执行系统命令或应用程序的任意代码。<br>  权限提升：攻击者可以利用反序列化漏洞来提升自己的权限，访问或修改受限数据。<br>  信息泄露：通过反序列化数据，攻击者可能获取敏感信息（如用户名、密码或系统配置）。<br>  对象注入攻击：通过修改对象的属性或状态，使得系统行为异常，导致逻辑错误或漏洞。</p>
+</li>
+<li><p>常见的反序列化漏洞利用方法<br>  构造恶意序列化数据：攻击者通过手动构造或使用工具（如PHP的gopherus、Python的pickle模块）来生成恶意的序列化数据。<br>  利用对象反射：许多反序列化攻击利用了反射机制，通过修改对象的内部数据或调用不受信任的函数来执行攻击。<br>  利用漏洞库：例如，在Java中，可以利用Commons Collections等库中的漏洞来触发反序列化漏洞，执行恶意代码。</p>
+</li>
+<li><p>防御反序列化漏洞<br>  不反序列化不可信数据：最有效的防护措施是避免反序列化来自不可信源的数据。<br>  使用白名单验证：对于反序列化的数据，使用白名单验证，确保数据中的类和方法是预期的，防止反序列化过程中执行恶意代码。<br>  安全的序列化方法：使用更安全的序列化库或方法，如使用JSON代替Pickle、XML等，避免使用eval()等危险函数。<br>  输入校验与过滤：对所有输入进行严格的校验，确保传入的数据符合预期格式，避免恶意数据注入。<br>  避免使用不安全的库：例如，不要使用PHP unserialize()、Java中的ObjectInputStream，以及Python的pickle模块来反序列化来自不可信来源的数据。</p>
+</li>
+<li><p>常见的反序列化漏洞案例<br>  PHP反序列化漏洞：攻击者利用unserialize()函数，构造恶意的序列化字符串，通过改变对象的属性或方法来执行任意PHP代码。<br>  Java反序列化漏洞：通过利用类库中的已知反序列化漏洞（如Commons Collections）来触发恶意代码执行。<br>  Python pickle漏洞：通过恶意构造的pickle数据，触发pickle模块中包含的危险代码执行。</p>
+</li>
+<li><p>检测与验证反序列化漏洞<br>  手动分析源代码：查看代码中是否存在不安全的反序列化函数调用，如unserialize()、readObject()等。<br>  自动化工具：使用CTF工具和安全扫描工具（如Burp Suite、OWASP ZAP）进行自动化漏洞扫描。<br>  尝试反序列化攻击：使用已知的payload（如PHPObjectInjection、ysoserial）来测试目标系统是否存在反序列化漏洞。</p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/02/09/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" data-id="cm6xp89j60000bovafjxoc7u3" data-title="反序列化" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-web90" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/02/09/web90/" class="article-date">
@@ -533,51 +587,6 @@
 
 
   
-    <article id="post-web文件上传" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/01/15/web%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" class="article-date">
-  <time class="dt-published" datetime="2025-01-15T12:11:58.000Z" itemprop="datePublished">2025-01-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/01/15/web%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/">web文件上传</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <ol>
-<li>文件上传基本原理<br>文件上传漏洞：允许用户将文件上传到服务器，若未对上传的文件进行足够的验证或限制，攻击者可以上传恶意文件执行命令或获取敏感信息。<br>文件上传机制一般包括前端表单和后端接收上传的处理逻辑。</li>
-<li>常见的文件上传漏洞类型<br>文件类型验证绕过：后端往往通过检查文件扩展名（例如 .jpg, .png）来验证文件类型，但攻击者可以通过修改文件扩展名绕过这种验证。<br>例如，可以将 .php 文件改为 .jpg，上传时修改扩展名，后端可能会错过实际文件类型的检测。最常见的就是一句话木马。<br>MIME 类型检查绕过：有时后端通过检查 MIME 类型来判断文件类型。攻击者可能通过篡改文件头部的 MIME 类型来绕过后端的检查。<br>例如，修改文件的 Content-Type 为 image&#x2F;jpeg，即便文件本身是一个恶意 PHP 脚本。<br>路径遍历攻击：上传的文件会被保存在服务器上，如果没有对文件路径进行严格限制，攻击者可以利用路径遍历漏洞上传文件到敏感位置，甚至执行服务器上的文件。<br>例如，上传文件名为 ..&#x2F;..&#x2F;..&#x2F;..&#x2F;etc&#x2F;passwd，文件可能被上传到 &#x2F;etc&#x2F;passwd 文件路径，导致信息泄露。<br>执行权限绕过：即使文件成功上传到服务器，若文件存放目录没有执行权限，攻击者可能也无法执行上传的恶意文件。但某些服务器配置不当时，可能会允许文件执行。<br>例如，将文件上传到可执行目录（如 cgi-bin）中，攻击者可以通过浏览器访问并执行上传的 PHP 或其他脚本文件。<br>恶意文件上传：攻击者上传的文件可能是恶意的 Web 脚本（如 PHP、ASP、JSP 等），可以在服务器上执行任意代码。<br>例如，上传一个 PHP 文件，通过 HTTP 请求访问该文件，执行任意系统命令。3. 防御文件上传漏洞的常见策略<br>文件类型验证：在后端对文件进行严格的类型验证。除了扩展名，使用如 getimagesize() 等函数验证文件的 MIME 类型和文件内容是否与期望一致。<br>限制文件大小：限制文件上传的最大大小，防止攻击者通过上传大量数据导致服务拒绝（DoS）攻击。<br>文件名规范化：对上传的文件名进行规范化处理，避免路径遍历或特殊字符导致安全漏洞。<br>文件存储位置：将上传的文件存储在不可执行的目录中，避免上传的恶意脚本被执行。通常可以设置一个专门的文件存储目录，并设置为不可执行。<br>使用随机文件名：为上传的文件生成随机文件名，避免攻击者通过文件名直接访问或替换文件。<br>扫描恶意内容：使用杀毒软件或扫描工具检查上传的文件是否包含恶意代码或病毒。</li>
-<li>常见的绕过技巧<br>文件扩展名绕过：<br>攻击者可以上传以 .jpg、.png、.gif 等常见扩展名的文件，实际内容是恶意代码。服务器只检查扩展名而忽略了文件内容。<br>另一种常见绕过方式是通过文件双扩展名（如 evil.php.jpg）绕过检查。<br>利用图像文件上传脚本：<br>上传一个看似图像文件的 PHP 脚本，例如通过上传带有伪装的图像文件（如 image.php.jpg），并利用文件内容（即 PHP 脚本）进行攻击。<br>利用混淆手段绕过 MIME 类型检查：<br>通过修改文件头（magic bytes）或添加额外的伪造数据（例如在图片文件头部插入 PHP 代码），从而绕过文件内容检查。<br>Path Traversal 和 RCE：<br>攻击者可能尝试通过上传文件到不安全的路径（如 &#x2F;tmp 或其他目录），并通过访问该文件实现远程代码执行。</li>
-<li>漏洞利用过程示例<br>假设某 Web 应用允许用户上传图片，并且后端只对扩展名做了简单的验证：</li>
-</ol>
-<p>第一步：分析上传功能：确认文件类型验证和路径限制是否足够严格。<br>第二步：绕过文件类型验证：尝试上传 PHP 文件并通过更改扩展名（如 malicious.php.jpg）绕过检查。<br>第三步：路径遍历攻击：尝试上传文件到不可访问的目录，例如通过文件名 ..&#x2F;..&#x2F;..&#x2F;..&#x2F;var&#x2F;www&#x2F;html&#x2F;shell.php 来访问系统关键路径。<br>第四步：利用 RCE 执行代码：通过上传 PHP 文件到可执行目录并直接访问，执行攻击代码。<br>6. 示例工具<br>Burp Suite：可用于拦截和修改文件上传请求，帮助测试文件上传漏洞。<br>OWASP ZAP：一个开源的安全测试工具，适用于发现 Web 应用中的文件上传漏洞。<br>Nikto：Web 服务器扫描工具，能够扫描常见的漏洞，包括不安全的文件上传漏洞。<br>中国蚁剑：Web Shell管理工具。一旦上传成功，便可以使用蚁剑连接Web Shell，从而通过文件内容或服务漏洞进一步获得flag</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/01/15/web%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" data-id="cm5xvkhk20000bovag8ob1mmt" data-title="web文件上传" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -614,6 +623,10 @@
       <ul>
         
           <li>
+            <a href="/2025/02/09/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">反序列化</a>
+          </li>
+        
+          <li>
             <a href="/2025/02/09/web90/">web90</a>
           </li>
         
@@ -627,10 +640,6 @@
         
           <li>
             <a href="/2025/02/02/%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E/">逻辑漏洞</a>
-          </li>
-        
-          <li>
-            <a href="/2025/01/26/web%E5%BC%B1%E7%B1%BB%E5%9E%8B/">web弱类型</a>
           </li>
         
       </ul>
