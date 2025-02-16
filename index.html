@@ -69,6 +69,49 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-EZweb" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/02/16/EZweb/" class="article-date">
+  <time class="dt-published" datetime="2025-02-16T12:17:04.000Z" itemprop="datePublished">2025-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/02/16/EZweb/">EZweb</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>进入靶机<br>发现只有一个按钮<br>点击显示flag在附近的地方<br>首先去看源代码<br>提示访问src<br>访问src得到以下一串代码<br>import flask</p>
+<p>app &#x3D; flask.Flask(<strong>name</strong>)</p>
+<p>@app.route(‘&#x2F;‘, methods&#x3D;[‘GET’])<br>def index():<br>  return flask.send_file(‘index.html’)</p>
+<p>@app.route(‘&#x2F;src’, methods&#x3D;[‘GET’])<br>def source():<br>  return flask.send_file(‘app.py’)</p>
+<p>@app.route(‘&#x2F;super-secret-route-nobody-will-guess’, methods&#x3D;[‘PUT’])<br>def flag():<br>  return open(‘flag’).read()<br>   代码显示让我们用PUT方法访问&#x2F;super-secret-route-nobody-will-guess<br>   所以直接bp抓包修改方法为PUT<br>   最终得到flag</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/02/16/EZweb/" data-id="cm77lra53000074va3mybhctf" data-title="EZweb" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-敏感信息泄露" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/02/09/%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/" class="article-date">
@@ -506,75 +549,6 @@
 
 
   
-    <article id="post-SQL注入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/01/19/SQL%E6%B3%A8%E5%85%A5/" class="article-date">
-  <time class="dt-published" datetime="2025-01-19T15:01:42.000Z" itemprop="datePublished">2025-01-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/01/19/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <ol>
-<li><p>SQL注入概述<br>SQL注入攻击是指攻击者通过将恶意的SQL代码嵌入到应用程序的输入字段（如登录框、搜索框等）中，迫使应用程序执行该恶意SQL语句，从而影响数据库的正常操作，甚至获取数据库的敏感信息。</p>
-</li>
-<li><p>SQL注入的分类<br>基于错误的SQL注入（Error-based SQLi）：<br>攻击者通过故意触发SQL错误，获取错误信息来推测数据库的结构和表字段。这通常发生在应用程序没有处理数据库错误的情况下。</p>
-</li>
-</ol>
-<p>联合查询（Union-based SQLi）：<br>通过在SQL查询中使用UNION操作符，攻击者可以将恶意的查询结果与正常查询的结果合并，从而获取数据库中的其他数据。<br>盲注（Blind SQLi）：</p>
-<p>攻击者无法直接从错误信息中获得反馈，需通过观察网页响应的变化来推测数据库的内容。盲注有两种常见方式：<br>  布尔盲注（Boolean-based Blind SQLi）：通过向查询中插入条件（如1&#x3D;1或1&#x3D;2）来观察页面的响应变化。</p>
-<p>  时间盲注（Time-based Blind SQLi）：通过插入导致延迟的查询（如SLEEP函数）来推测数据库的存在信息。</p>
-<p>时间延迟注入（Time-based SQLi）：<br>攻击者通过在查询中插入时间延迟函数（如SLEEP(5)）来判断条件的真假，进一步探索数据库信息。<br>3. SQL注入攻击的基本步骤<br>识别漏洞：首先，攻击者需要识别目标网页是否存在SQL注入漏洞，通常通过对输入字段进行一些特殊字符测试（如’、”等）来观察系统的反应。</p>
-<p>分析数据库结构：一旦确认存在SQL注入漏洞，攻击者会尝试获取有关数据库的信息，例如表名、字段名等。这可以通过各种方式实现，如利用错误消息、联合查询等。</p>
-<p>执行攻击：获取足够的信息后，攻击者可以进行数据获取、删除、修改等操作，甚至可以通过SQL注入获取管理员权限。</p>
-<ol start="4">
-<li>SQL注入的常见利用<br>获取数据库信息：</li>
-</ol>
-<p>sql<br>‘ OR 1&#x3D;1 –<br>上述查询会导致SQL语句的条件永远为真，攻击者可以利用该漏洞绕过认证过程。</p>
-<p>联合查询注入：<br>利用UNION查询合并恶意查询的结果。例如，获取第二个表的所有数据：</p>
-<p>sql<br>‘ UNION SELECT null, username, password FROM users –<br>盲注：</p>
-<p>布尔盲注：<br>sql<br>‘ AND 1&#x3D;1 –  (返回正常页面)<br>‘ AND 1&#x3D;2 –  (返回错误页面)<br>时间盲注：<br>sql<br>‘ AND SLEEP(5) –  (查询延迟5秒)</p>
-<ol start="5">
-<li>防御SQL注入<br>使用预处理语句（Prepared Statements）：<br>预处理语句使用绑定参数的方式，将用户输入与SQL查询分开处理，避免了SQL注入风险。常见的编程语言支持预处理语句，如PHP的PDO、Python的MySQL Connector等。<br>python<br>cursor.execute(“SELECT * FROM users WHERE username &#x3D; %s AND password &#x3D; %s”, (username, password)).</li>
-</ol>
-<p>输入验证与过滤：<br>对所有用户输入进行严格的验证，过滤掉危险字符，如’、”、–、;等。可以使用正则表达式限制输入的格式。</p>
-<p>使用最小权限原则：<br>数据库账户应当仅授予其执行必要操作的权限。避免使用具有管理员权限的数据库账户来运行应用程序。</p>
-<p>错误处理：<br>避免在应用程序中显示详细的数据库错误信息。如果出现错误，应该显示通用的错误信息，而不暴露数据库结构。</p>
-<p>SQL查询审计与监控：<br>定期审计和监控数据库的SQL查询日志，发现并阻止异常的查询请求。</p>
-<ol start="6">
-<li>CTF Web中的SQL注入题目常见技巧<br>错误消息利用：有时，目标网站可能没有处理SQL错误，攻击者可以通过错误信息获得有关数据库的信息。例如，利用’导致SQL错误，获取数据库的错误提示。</li>
-</ol>
-<p>巧妙构造Payload：CTF题目常常要求用特殊的SQL语句来读取特定的数据或绕过认证。例如，构造特定的SQL查询来查询隐藏的管理员账户信息。</p>
-<p>多种注入方式结合：有时，攻击者需要结合多种SQL注入技术，如先利用盲注推测数据库结构，再使用联合查询获取数据。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/01/19/SQL%E6%B3%A8%E5%85%A5/" data-id="cm63r1l640000m0vahuam0au9" data-title="SQL注入" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -611,6 +585,10 @@
       <ul>
         
           <li>
+            <a href="/2025/02/16/EZweb/">EZweb</a>
+          </li>
+        
+          <li>
             <a href="/2025/02/09/%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/">敏感信息泄露</a>
           </li>
         
@@ -624,10 +602,6 @@
         
           <li>
             <a href="/2025/02/02/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/">命令注入</a>
-          </li>
-        
-          <li>
-            <a href="/2025/02/02/2023/">2023]</a>
           </li>
         
       </ul>
