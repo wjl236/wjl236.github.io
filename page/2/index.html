@@ -69,6 +69,45 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-web3" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/01/26/web3/" class="article-date">
+  <time class="dt-published" datetime="2025-01-26T12:31:37.000Z" itemprop="datePublished">2025-01-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/01/26/web3/">web3</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>进入靶机<br>可以看到只有两行字母<br>ctf.show_web3<br> <?php include($_GET['url']);?><br> 可以看出这是php语言，其中include()涉及文件漏洞<br> 那我们来了解一下include()函数<br> include()：当使用该函数包含文件时，只有代码执行到include()函数时才将文件包含进来，发生错误时之给出一个警告，然后继续向下执行。<br> 我们利用php伪协议php:&#x2F;&#x2F;input来执行php代码<br> 发送Get请求?url&#x3D;php:&#x2F;&#x2F;input<br> 打开bp进行抓包<br> 在包的最下面写上<?php system('ls')?>执行系统命令查看当前目录的文件，来查看有无目标文件<br> 发送后，可以发现有ctf_go_go_go index.php两个文件<br> 猜测flag在第一个文件里<br> 接着我们直接在url地址栏中输入url参数,访问ctf_go_go_go文件<br> 回车后，得到flag</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/01/26/web3/" data-id="cm6dm88po0000w0vagbnw660b" data-title="web3" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-SQL注入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/01/19/SQL%E6%B3%A8%E5%85%A5/" class="article-date">
@@ -375,6 +414,10 @@
       <ul>
         
           <li>
+            <a href="/2025/02/16/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86/">目录遍历</a>
+          </li>
+        
+          <li>
             <a href="/2025/02/16/EZweb/">EZweb</a>
           </li>
         
@@ -388,10 +431,6 @@
         
           <li>
             <a href="/2025/02/09/web90/">web90</a>
-          </li>
-        
-          <li>
-            <a href="/2025/02/02/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/">命令注入</a>
           </li>
         
       </ul>

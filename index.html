@@ -69,6 +69,67 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-目录遍历" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/02/16/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86/" class="article-date">
+  <time class="dt-published" datetime="2025-02-16T13:20:38.000Z" itemprop="datePublished">2025-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/02/16/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86/">目录遍历</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>目录遍历概念<br>目录遍历是指攻击者通过在Web应用的文件路径中插入..&#x2F;（或..\）等特殊字符，试图跳出应用的根目录，从而访问到不应该公开的文件或目录。通过这种方式，攻击者可以访问到系统的敏感文件（如 &#x2F;etc&#x2F;passwd 或 C:\Windows\System32\），甚至执行系统命令。</p>
+</li>
+<li><p>攻击方式<br>通过URL参数绕过目录限制：攻击者通过修改请求URL中的路径参数，使用 ..&#x2F; 或 ..%2F（URL编码）等符号，试图访问不该访问的文件。<br>示例：<a href="http://example.com/page?file=../../../../etc/passwd">http://example.com/page?file=../../../../etc/passwd</a><br>通过上传文件进行攻击：某些应用允许用户上传文件，攻击者可以上传带有目录遍历特性的文件（如..&#x2F;），试图获取服务器上其他路径的文件。<br>编码绕过：攻击者可以使用URL编码（如 %2F 代替 &#x2F;）或Unicode编码（如 \u002F）等方式绕过简单的输入过滤。<br>示例：<a href="http://example.com/file?name=../../../etc/passwd">http://example.com/file?name=..%2F..%2F..%2Fetc%2Fpasswd</a><br>多重目录遍历：攻击者通过多次使用 ..&#x2F; 来逐步遍历更深层的目录，访问系统的敏感文件。<br>示例：<a href="http://example.com/download?file=../../../../../../var/www/secret.txt">http://example.com/download?file=../../../../../../var/www/secret.txt</a></p>
+</li>
+<li><p>常见的目录遍历攻击目标<br>Web服务器配置文件：例如，httpd.conf（Apache配置）或者nginx.conf（Nginx配置），可以泄露Web服务器的配置信息。<br>敏感用户数据文件：如数据库备份文件、用户凭证、配置文件等。<br>系统文件：攻击者可以通过访问系统的核心配置文件（如 &#x2F;etc&#x2F;passwd、&#x2F;etc&#x2F;shadow、&#x2F;boot&#x2F;grub&#x2F;grub.cfg等）获取敏感信息，甚至尝试进行提权攻击。<br>应用日志文件：如Web应用日志（access.log、error.log）等，可能包含敏感信息（例如，错误信息、数据库连接字符串等）。</p>
+</li>
+<li><p>目录遍历的防护方法<br>规范化用户输入：</p>
+</li>
+</ol>
+<p>去除恶意字符：对于路径相关的输入，使用正则表达式过滤掉..&#x2F;（或..\）等特殊字符。比如：path &#x3D; path.replace(&#x2F;(../|..\)&#x2F;g, ‘’)。<br>禁止用户输入路径：在系统中，尽量避免让用户直接输入路径，特别是在文件操作中。如果必须使用文件路径，则应只允许输入特定的、安全的路径。<br>限制文件访问范围：</p>
+<p>沙箱环境：对于上传的文件和用户请求的文件，确保只能访问应用的特定目录，不允许访问其他目录。<br>设置访问权限：对于文件服务器，设置适当的文件权限，确保普通用户只能访问授权的目录和文件。<br>路径规范化：</p>
+<p>标准化路径：将用户提交的路径参数进行规范化处理（如转换为绝对路径、消除多余的 ..&#x2F;），并验证该路径是否在允许的目录范围内。可以使用 realpath() 或类似的函数来获取规范化路径，并与预定义的根目录进行比对。<br>避免符号链接漏洞：在Unix系统中，符号链接（symlink）可能会导致路径遍历问题。确保文件系统中的重要目录没有软链接指向不受信任的位置。<br>输入校验与过滤：</p>
+<p>避免直接暴露文件路径：尽量避免直接在URL中暴露文件路径。如果必须使用文件路径，可以进行必要的验证，如限制可访问文件的类型（例如，仅允许访问图片或文本文件）以及限制路径的层级。<br>限制文件类型：如果Web应用允许用户上传文件，应检查文件类型，确保上传的文件是合法的文件类型，不是可以执行代码的文件（例如 .php, .exe 等）。<br>日志监控与告警：</p>
+<p>日志审计：定期审查Web应用的访问日志和错误日志，发现异常请求（例如包含 ..&#x2F; 的请求），及时响应和修复漏洞。<br>行为分析：对请求进行行为分析，检测和阻止异常模式（如大量使用 ..&#x2F; 的请求）。</p>
+<ol start="5">
+<li><p>目录遍历漏洞的测试方法<br>手动测试：通过手动构造URL，插入..&#x2F;进行路径遍历测试。观察是否能够访问到不该暴露的文件。<br>自动化工具：使用工具（如Burp Suite、Dirbuster、Dirb等）进行目录遍历扫描，寻找可能的漏洞点。<br>检测工具：使用如Nikto、OWASP ZAP等工具进行Web应用扫描，检查是否存在目录遍历漏洞。</p>
+</li>
+<li><p>防止目录遍历的最佳实践<br>最小权限原则：保证Web应用和Web服务器进程仅具有执行必需操作所需的最小权限。<br>严格路径限制：限制Web应用的文件访问范围，只允许访问特定目录，不要暴露任何系统目录。<br>避免暴露敏感信息：不要让Web应用返回系统配置或敏感文件的内容。<br>使用相对路径：在文件操作中，尽量使用相对路径而不是绝对路径，并限制文件存储在固定的子目录中。</p>
+</li>
+<li><p>总结<br>目录遍历漏洞是Web应用中的常见安全漏洞之一，通过它，攻击者可以访问系统的敏感文件，甚至执行恶意操作。有效的防护措施包括规范化用户输入、路径限制、文件类型检查以及监控等。通过实践这些防护策略，可以大大降低目录遍历漏洞对Web应用的威胁。</p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/02/16/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86/" data-id="cm77nob7r0000h0va62vz99u5" data-title="目录遍历" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-EZweb" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/02/16/EZweb/" class="article-date">
@@ -510,45 +571,6 @@
 
 
   
-    <article id="post-web3" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/01/26/web3/" class="article-date">
-  <time class="dt-published" datetime="2025-01-26T12:31:37.000Z" itemprop="datePublished">2025-01-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/01/26/web3/">web3</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>进入靶机<br>可以看到只有两行字母<br>ctf.show_web3<br> <?php include($_GET['url']);?><br> 可以看出这是php语言，其中include()涉及文件漏洞<br> 那我们来了解一下include()函数<br> include()：当使用该函数包含文件时，只有代码执行到include()函数时才将文件包含进来，发生错误时之给出一个警告，然后继续向下执行。<br> 我们利用php伪协议php:&#x2F;&#x2F;input来执行php代码<br> 发送Get请求?url&#x3D;php:&#x2F;&#x2F;input<br> 打开bp进行抓包<br> 在包的最下面写上<?php system('ls')?>执行系统命令查看当前目录的文件，来查看有无目标文件<br> 发送后，可以发现有ctf_go_go_go index.php两个文件<br> 猜测flag在第一个文件里<br> 接着我们直接在url地址栏中输入url参数,访问ctf_go_go_go文件<br> 回车后，得到flag</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/01/26/web3/" data-id="cm6dm88po0000w0vagbnw660b" data-title="web3" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -585,6 +607,10 @@
       <ul>
         
           <li>
+            <a href="/2025/02/16/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86/">目录遍历</a>
+          </li>
+        
+          <li>
             <a href="/2025/02/16/EZweb/">EZweb</a>
           </li>
         
@@ -598,10 +624,6 @@
         
           <li>
             <a href="/2025/02/09/web90/">web90</a>
-          </li>
-        
-          <li>
-            <a href="/2025/02/02/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/">命令注入</a>
           </li>
         
       </ul>
